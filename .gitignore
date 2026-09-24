@@ -1,0 +1,6 @@
+*.o
+crash-analyzer
+build/
+.vscode/
+.idea/
+.DS_Store
