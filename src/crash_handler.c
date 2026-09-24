@@ -7,6 +7,8 @@
 #include <unistd.h>
 
 
+
+
 #include <execinfo.h>
 #include <ucontext.h>
 
@@ -95,6 +97,8 @@ static void crash_handler(int signal, siginfo_t *info, void *context) {
   // ELF = Executable and Linkable Format is the structure Linux uses to organize an executable and the information associated with it. 
   // .text contains executable machine instructions. 
   // -g means: Generate debugging information for use
+  //  Position Independent Executable (PIE) is an ELF binary compiled as a shared object that allows OS to load the program into random memory addresses, enabling Address Space Layout Randomization (ASLR) for security hardening. 
+  // The executable is designed so that it can execute correctly regardless of where the loader places it in memory.
   exit(EXIT_FAILURE);
 }
 // It is a callback defined by the OS interface and Linux calls it according to the required signature. 

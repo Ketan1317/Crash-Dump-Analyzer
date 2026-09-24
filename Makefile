@@ -10,7 +10,8 @@ CFLAGS = -Wall -Wextra -g -Iinclude
 TARGET = crash-analyzer
 
 SRC = src/main.c \
-      src/crash_handler.c
+      src/crash_handler.c \
+      src/elf_reader.c
 
 OBJ = $(SRC:.c=.o)
 
