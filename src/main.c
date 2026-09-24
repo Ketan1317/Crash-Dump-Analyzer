@@ -7,7 +7,7 @@ int main(void) {
 
     printf("Crash analyzer started.\n");
 
-    int *ptr = NULL;
+    int *ptr = (int *)0x1234;
 
     printf("About to cause a crash...\n");
 
