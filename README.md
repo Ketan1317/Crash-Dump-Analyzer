@@ -1,21 +1,24 @@
-# Crash Analyzer
+# Crash-Dump-Analyzer
 
-## Project Description
+A lightweight Linux crash analysis tool written in C. It captures information from a crashed process and inspects the executable's ELF structures to help understand what happened at the time of failure.
 
-A small crash analysis tool written in C for Linux. It captures information when a program crashes and generates a simple diagnostic report containing the signal, fault address, CPU registers, and stack information.
+## Features
 
-## Goal
+* Linux signal handling with `sigaction`
+* Fault address and CPU register capture
+* Basic stack trace generation
+* Crash report generation
+* ELF header and section parsing
+* Symbol table and string table parsing
+* Function symbol inspection
 
-The goal of this project is to understand what happens inside a program when it crashes and learn about Linux signals, process state, registers, stack frames, and debugging internals.
+## Tech Stack
 
-## Planned Features
-
-* Detect common program crashes
-* Capture crash signals
-* Display the fault address
-* Display CPU register values
-* Generate a basic stack trace
-* Produce a readable crash report
+* C
+* Linux / POSIX
+* ELF
+* Make
+* GCC
 
 ## Build
 
@@ -29,16 +32,4 @@ make
 ./crash-analyzer
 ```
 
-## Technologies
-
-* C
-* Linux
-* POSIX Signals
-* Linux process and debugging APIs
-* Make
-
-## Project Structure
-
-* `src/` — source files
-* `include/` — header files
-* `Makefile` — build configuration
+The project is built to understand the low-level concepts behind crash analysis, debugging, ELF binaries, process state, and stack traces.
