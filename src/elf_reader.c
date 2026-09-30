@@ -22,7 +22,6 @@
 #include "symbol_resolver.h"
 #include "symbol_table.h"
 
-
 int load_symbol_table(char *filename, SymbolTable *table) {
   int fd = open(filename, O_RDONLY);
   if (fd < 0) {

@@ -1,18 +1,19 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "crash_handler.h"
 #include "elf_reader.h"
 
 int main(void) {
-
-  printf("Crash analyzer started.\n");
+  printf("Crash analyzer started.........\n");
 
   SymbolTable symbol_table = {0};
 
   if (load_symbol_table("./crash-analyzer", &symbol_table) != 0) {
-    printf("Failed to load symbol table.\n");
-    return 1;
+    printf("Failed to load symbol table!\n");
+    exit(-1);
   }
+  
   printf("Loaded %zu symbols.\n", symbol_table.symbol_count);
 
   install_crash_handler(&symbol_table);
