@@ -1,6 +1,8 @@
 #ifndef CRASH_HANDLER_H
 #define CRASH_HANDLER_H
 
-void install_crash_handler(void);
+#include "symbol_table.h"
+
+void install_crash_handler(SymbolTable *table);
 
 #endif

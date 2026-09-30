@@ -19,8 +19,11 @@
 #include <unistd.h>
 
 #include "elf_reader.h"
+#include "symbol_resolver.h"
+#include "symbol_table.h"
 
-void inspect_elf(char *filename) {
+
+int load_symbol_table(char *filename, SymbolTable *table) {
   int fd = open(filename, O_RDONLY);
   if (fd < 0) {
     perror("open");
@@ -36,18 +39,6 @@ void inspect_elf(char *filename) {
     close(fd);
     exit(-1);
   }
-
-  printf("ELF file: %s\n", filename);
-
-  printf("Entry point: 0x%lx\n", header.e_entry);
-
-  printf("Section header offset: %lu\n",
-         header.e_shoff); // where the section-header table is located inside
-                          // the ELF file
-
-  printf("Number of sections: %u\n", header.e_shnum);
-
-  printf("Section header size: %u\n", header.e_shentsize);
 
   Elf64_Shdr *sections = malloc(header.e_shnum * sizeof(Elf64_Shdr));
   if (sections == NULL) {
@@ -82,14 +73,18 @@ void inspect_elf(char *filename) {
   }
 
   lseek(fd, shstrtab_header.sh_offset, SEEK_SET);
-  read(fd, section_names, shstrtab_header.sh_size);
+  ssize_t section_name_bytes = read(fd, section_names, shstrtab_header.sh_size);
 
-  printf("\nSections:\n");
+  if (section_name_bytes != (ssize_t)shstrtab_header.sh_size) {
+    perror("read section names");
+    free(section_names);
+    free(sections);
+    close(fd);
 
-  for (int i = 0; i < header.e_shnum; i++) {
-    printf("[%2d] %s\n", i, section_names + sections[i].sh_name);
+    return -1;
   }
 
+  // Find .symtab
   int symtab_idx = -1;
   for (int i = 0; i < header.e_shnum; i++) {
     char *name = section_names + sections[i].sh_name;
@@ -105,20 +100,15 @@ void inspect_elf(char *filename) {
     free(section_names);
     free(sections);
     close(fd);
-    return;
+    return 1;
   }
 
-  printf("\nSymbol table found at section: %d\n", symtab_idx);
-
   Elf64_Shdr symtab = sections[symtab_idx];
+  // sh_link tells us which section contains the names of the symbols
   int strtab_index = symtab.sh_link;
   Elf64_Shdr strtab = sections[strtab_index];
 
-  printf("Symbol string table section: %d\n", strtab_index);
-
-  // No. of symbols
-  size_t symbol_count = symtab.sh_size / symtab.sh_entsize;
-
+  // Load symbol names
   char *symbol_names = malloc(strtab.sh_size);
 
   if (symbol_names == NULL) {
@@ -174,18 +164,27 @@ void inspect_elf(char *filename) {
     exit(EXIT_FAILURE);
   }
 
-  printf("\nFunction symbols:\n");
+  // No. of symbols
+  size_t symbol_count = symtab.sh_size / symtab.sh_entsize;
 
-  for (size_t i = 0; i < symbol_count; i++) {
-    if (ELF64_ST_TYPE(symbols[i].st_info) == STT_FUNC) {
-      printf("0x%lx  %s\n", symbols[i].st_value,
-             symbol_names + symbols[i].st_name);
-    }
-  }
+  // Load into SymbolTable struct
+  table->symbols = symbols;
+  table->symbol_count = symbol_count;
+  table->symbol_names = symbol_names;
 
-  free(symbols);
-  free(symbol_names);
   free(section_names);
   free(sections);
   close(fd);
+
+  return 0;
+}
+
+void free_symbol_table(SymbolTable *table) {
+
+  free(table->symbols);
+  free(table->symbol_names);
+
+  table->symbols = NULL;
+  table->symbol_names = NULL;
+  table->symbol_count = 0;
 }

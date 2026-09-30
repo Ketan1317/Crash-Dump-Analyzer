@@ -1,6 +1,0 @@
-./crash-analyzer(+0x164d) [0x61e7ce44e64d]
-/usr/lib/x86_64-linux-gnu/libc.so.6(+0x45cb0) [0x740455c45cb0]
-./crash-analyzer(+0x13b3) [0x61e7ce44e3b3]
-/usr/lib/x86_64-linux-gnu/libc.so.6(+0x2a601) [0x740455c2a601]
-/usr/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0x88) [0x740455c2a718]
-./crash-analyzer(+0x12a5) [0x61e7ce44e2a5]

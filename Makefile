@@ -11,7 +11,8 @@ TARGET = crash-analyzer
 
 SRC = src/main.c \
       src/crash_handler.c \
-      src/elf_reader.c
+      src/elf_reader.c \
+      src/symbol_resolver.c
 
 OBJ = $(SRC:.c=.o)
 
