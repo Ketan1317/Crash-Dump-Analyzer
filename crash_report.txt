@@ -1,0 +1,44 @@
+============================================================
+                    CRASH DUMP REPORT
+============================================================
+
+Process Information
+------------------------------------------------------------
+Signal          : 11
+Fault Address   : 0x1234
+
+CPU Registers
+------------------------------------------------------------
+RIP             : 0x5632aad964b2
+RSP             : 0x7ffceef6dd00
+RBP             : 0x7ffceef6dd30
+RAX             : 0x1234
+RBX             : (nil)
+RCX             : 0x73f2c0414750
+RDX             : 0x73f2c0414750
+
+Crash Location
+------------------------------------------------------------
+Runtime Address : 0x5632aad964b2
+Load Base       : 0x5632aad95000
+ELF Address     : 0x14b2
+Function        : main
+
+Stack Trace
+------------------------------------------------------------
+#0   0x5632aad96bd5  /mnt/c/Users/MANI COMPUTER LNG/Desktop/Crash Dump Analyzer/crash-analyzer
+      Load Base: 0x5632aad95000
+#1   0x73f2c0245cb0  /usr/lib/x86_64-linux-gnu/libc.so.6
+      Load Base: 0x73f2c0200000
+#2   0x5632aad964b2  /mnt/c/Users/MANI COMPUTER LNG/Desktop/Crash Dump Analyzer/crash-analyzer
+      Load Base: 0x5632aad95000
+#3   0x73f2c022a601  /usr/lib/x86_64-linux-gnu/libc.so.6
+      Load Base: 0x73f2c0200000
+#4   0x73f2c022a718  /usr/lib/x86_64-linux-gnu/libc.so.6
+      Load Base: 0x73f2c0200000
+#5   0x5632aad96345  /mnt/c/Users/MANI COMPUTER LNG/Desktop/Crash Dump Analyzer/crash-analyzer
+      Load Base: 0x5632aad95000
+
+============================================================
+                    END OF REPORT
+============================================================
