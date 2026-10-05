@@ -5,6 +5,7 @@
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 #include <execinfo.h>
@@ -63,12 +64,12 @@ static void crash_handler(int signal, siginfo_t *info, void *context) {
 
   if (symbol_table != NULL && elf_address != 0) {
 
-    char *function = find_symbol(symbol_table->symbols, symbol_table->symbol_count,
-                      symbol_table->symbol_names, elf_address);
+    char *function =
+        find_symbol(symbol_table->symbols, symbol_table->symbol_count,
+                    symbol_table->symbol_names, elf_address);
 
     if (function != NULL) {
       dprintf(fd, "Function        : %s\n\n", function);
-
     } else {
       dprintf(fd, "Function        : <unknown>\n\n");
     }
@@ -86,14 +87,25 @@ static void crash_handler(int signal, siginfo_t *info, void *context) {
   // Resolve every stack address to its mapped ELF object.
   for (int i = 0; i < frame_count; i++) {
     unsigned long runtime_address = (unsigned long)stack[i];
-
     char path[512];
     unsigned long base;
 
     if (find_mapping(runtime_address, path, sizeof(path), &base) == 0) {
-      dprintf(fd, "#%-2d  0x%lx  %s\n", i, runtime_address, path);
-      dprintf(fd, "      Load Base: 0x%lx\n", base);
+      unsigned long frame_elf_address = runtime_address - base;
+      char *function = NULL;
 
+      if (symbol_table != NULL && base == load_base) {
+        function =
+            find_symbol(symbol_table->symbols, symbol_table->symbol_count,
+                        symbol_table->symbol_names, frame_elf_address);
+      }
+
+      if (function != NULL) {
+        dprintf(fd, "#%-2d  0x%lx  %s\n", i, frame_elf_address, function);
+      } else {
+        dprintf(fd, "#%-2d  0x%lx  %s  <unknown>\n", i, frame_elf_address,
+                path);
+      }
     } else {
       dprintf(fd, "#%-2d  0x%lx  <no mapping>\n", i, runtime_address);
     }

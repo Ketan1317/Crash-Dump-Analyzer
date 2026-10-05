@@ -5,32 +5,30 @@ Fault Address   : 0x1234
 
 CPU Registers
 ------------------------------------------------------------
-RIP             : 0x5ddf6429e4b2
-RSP             : 0x7ffde0073470
-RBP             : 0x7ffde00734a0
+RIP             : 0x6495df6053f9
+RSP             : 0x7ffdc7c52178
+RBP             : 0x7ffdc7c52178
 RAX             : 0x1234
 RBX             : (nil)
-RCX             : 0x7b06b6014750
-RDX             : 0x7b06b6014750
+RCX             : 0x77b8bf814750
+RDX             : 0x77b8bf814750
 
 Crash Location
 ------------------------------------------------------------
-Runtime Address : 0x5ddf6429e4b2
-Load Base       : 0x5ddf6429d000
-ELF Address     : 0x14b2
-Function        : main
+Runtime Address : 0x6495df6053f9
+Load Base       : 0x6495df604000
+ELF Address     : 0x13f9
+Function        : write_to_memory
 
 Stack Trace
 ------------------------------------------------------------
-#0   0x5ddf6429e9a6  /mnt/c/Users/MANI COMPUTER LNG/Desktop/Crash Dump Analyzer/crash-analyzer
-      Load Base: 0x5ddf6429d000
-#1   0x7b06b5e45cb0  /usr/lib/x86_64-linux-gnu/libc.so.6
-      Load Base: 0x7b06b5e00000
-#2   0x5ddf6429e4b2  /mnt/c/Users/MANI COMPUTER LNG/Desktop/Crash Dump Analyzer/crash-analyzer
-      Load Base: 0x5ddf6429d000
-#3   0x7b06b5e2a601  /usr/lib/x86_64-linux-gnu/libc.so.6
-      Load Base: 0x7b06b5e00000
-#4   0x7b06b5e2a718  /usr/lib/x86_64-linux-gnu/libc.so.6
-      Load Base: 0x7b06b5e00000
-#5   0x5ddf6429e345  /mnt/c/Users/MANI COMPUTER LNG/Desktop/Crash Dump Analyzer/crash-analyzer
-      Load Base: 0x5ddf6429d000
+#0   0x1982  crash_handler
+#1   0x45cb0  /usr/lib/x86_64-linux-gnu/libc.so.6  <unknown>
+#2   0x13f9  write_to_memory
+#3   0x141e  process_data
+#4   0x1441  analyze_data
+#5   0x1451  run_analysis
+#6   0x14f9  main
+#7   0x2a601  /usr/lib/x86_64-linux-gnu/libc.so.6  <unknown>
+#8   0x2a718  /usr/lib/x86_64-linux-gnu/libc.so.6  <unknown>
+#9   0x1325  _start

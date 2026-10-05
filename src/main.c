@@ -4,6 +4,24 @@
 #include "crash_handler.h"
 #include "elf_reader.h"
 
+void write_to_memory(int *ptr) {
+  *ptr = 42;
+}
+
+void process_data(int *ptr) {
+  write_to_memory(ptr);
+}
+
+void analyze_data(void) {
+  int *invalid_ptr = (int *)0x1234;
+
+  process_data(invalid_ptr);
+}
+
+void run_analysis(void) {
+  analyze_data();
+}
+
 int main(void) {
   printf("Crash analyzer started.........\n");
 
@@ -13,14 +31,12 @@ int main(void) {
     printf("Failed to load symbol table!\n");
     exit(-1);
   }
-  
   printf("Loaded %zu symbols.\n", symbol_table.symbol_count);
-
+  
   install_crash_handler(&symbol_table);
 
-  int *ptr = (int *)0x1234;
   printf("About to cause a crash...\n");
-  *ptr = 42;
+  run_analysis();
 
   free_symbol_table(&symbol_table);
   return 0;
