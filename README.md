@@ -102,7 +102,7 @@ The project uses Linux-specific facilities including:
 Clone the repository:
 
 ```bash
-git clone <your-repository-url>
+git clone https://github.com/Ketan1317/Crash-Dump-Analyzer.git
 cd "Crash Dump Analyzer"
 ```
 
@@ -257,11 +257,3 @@ The current implementation resolves symbols from the main executable. Shared-lib
 - Custom stack unwinding
 - Core dump analysis
 - Improved async-signal-safe crash handling
-
-## License
-
-See `LICENSE`.
-
-## Author
-
-**Ketan Goyal**
